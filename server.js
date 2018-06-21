@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const moment = require("moment");
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -42,21 +41,30 @@ mongoose.connect(`mongodb://${process.env.USER}:${process.env.PASS}@${process.en
         })
       })
       .post((req, res) => {
+          let post;
+          var body='';
+          req.on('data', function (data) {
+                body +=data;
+          });
+          var params = req.body.text.split(" ", -1)
+          const year = params[1].slice(0,-2)
+          const month = params[1].slice(-2)
+          const user = params[2]
+          const serviceType = params[3]
+          const url = params[4]
           let slide = new Slide();
-
-          slide.publish.month = req.body.publish.month;
-          slide.publish.year = req.body.publish.year;
-          slide.presentation.presentationUrl = req.body.presentation.presentationUrl;
-          slide.presentation.presenter = req.body.presentation.presenter;
-          slide.presentation.serviceType = req.body.presentation.serviceType;
+          slide.publish.month = month;
+          slide.publish.year = year;
+          slide.presentation.presentationUrl = url;
+          slide.presentation.presenter = user;
+          slide.presentation.serviceType = serviceType;
           slide.createdAt = moment.now();
           slide.updatedAt = moment.now();
-
           slide.save(err => {
             if (err) {
               res.send(err);
             }
-            res.json({message: 'Slide created!'});
+            res.json({text: "良いスライドやん"});
           });
         }
       );
