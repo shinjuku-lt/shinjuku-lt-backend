@@ -41,17 +41,16 @@ mongoose.connect(`mongodb://${process.env.USER}:${process.env.PASS}@${process.en
         })
       })
       .post((req, res) => {
-          let post;
-          var body='';
+          let body = '';
           req.on('data', function (data) {
-                body +=data;
+            body += data;
           });
-          var params = req.body.text.split(" ", -1)
-          const year = params[1].slice(0,-2)
-          const month = params[1].slice(-2)
-          const user = params[2]
-          const serviceType = params[3]
-          const url = params[4]
+          const params = req.body.text.split(" ", -1);
+          const year = params[1].slice(0, -2);
+          const month = params[1].slice(-2);
+          const user = params[2];
+          const serviceType = params[3];
+          const url = params[4];
           let slide = new Slide();
           slide.publish.month = month;
           slide.publish.year = year;
