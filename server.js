@@ -22,7 +22,7 @@ mongoose.connect(`mongodb://${process.env.USER}:${process.env.PASS}@${process.en
       .get((req, res) => {
         Slide.find({}).exec((err, slides) => {
           const response = slides.reduce((response, currentSlide) => {
-              const padMonth = "0" + (currentSlide.publish.month + 1).toString().slice(-2);
+              const padMonth = ('00' + currentSlide.publish.month).slice(-2);
               const key = `${currentSlide.publish.year}${padMonth}`;
               response[key] = response[key] || [];
               response[key].push(
