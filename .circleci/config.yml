@@ -1,12 +1,20 @@
+workflows:
+  version: 2
+  build_deploy:
+    jobs:
+      - build_and_deploy
 version: 2
 jobs:
-  build_and_deploy:
-    working_directory: ~/repo
+  build:
     docker:
       - image: circleci/node:8.9
+
     branches:
         only:
           - master
+
+    working_directory: ~/repo
+
     steps:
       - checkout
 
@@ -17,11 +25,5 @@ jobs:
       - run:
           name: deploy asap now!!
           command: |
-            now --public -t ${ZEIT_TOKEN}
+            now shinjuku-lt/shinjuku-lt-backend --public -t ${ZEIT_TOKEN}
             now alias -t
-
-workflows:
-  version: 2
-  build_deploy:
-    jobs:
-      - build_and_deploy
