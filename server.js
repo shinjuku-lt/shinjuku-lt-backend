@@ -54,7 +54,7 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
           let slide = new Slide();
           slide.publish.month = month;
           slide.publish.year = year;
-          slide.presentation.presentationUrl = url;
+          slide.presentation.presentationUrl = url.slice(1, -1);
           slide.presentation.presenter = user;
           slide.presentation.serviceType = serviceType;
           slide.createdAt = moment.now();
