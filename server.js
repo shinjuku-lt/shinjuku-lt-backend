@@ -65,8 +65,19 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
             }
             res.json({text: "良いスライドやん"});
           });
-        }
-      );
+        });
+
+    let NextSlide = require('./app/models/next');
+    app.route('/next')
+      .get((req, res) => {
+        NextSlide.findOne({}).exec((err, next) => {
+          const padMonth = ('00' + next.nextTime.month).slice(-2);
+          const padDate = ('00' + next.nextTime.date).slice(-2);
+          next.nextTime.month = padMonth
+          next.nextTime.date = padDate
+          res.json(next);
+        })
+      })
   }
 );
 
