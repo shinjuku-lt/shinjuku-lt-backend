@@ -18,6 +18,10 @@ const NextSchema = new Schema(
       companyLink: { type: String, required: false },
       address: { type: String, required: true }
     },
+    google: {
+      map: { type: String, required: false },
+      calendar: { type: String, required: false }
+    },
     schedule: { type: [ScheduleSchema], required: false }
   },
   {
