@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, err => {
 
     app.get('/health', (req, res) => {
-      res.json({message: 'woooooooooooo.'});
+      res.json({message: 'woooooooooooo!!!!'});
     });
     let Slide = require('./app/models/slide');
     app.route('/slide')
