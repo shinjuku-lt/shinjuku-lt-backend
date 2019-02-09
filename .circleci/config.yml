@@ -15,7 +15,7 @@ jobs:
 
       - run:
           name: install now
-          command: sudo npm i -g --unsafe-perm now
+          command: sudo npm i -g --unsafe-perm now@11.4.6
 
       - run:
           name: deploy asap now!!
