@@ -105,6 +105,10 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
           res.json(next);
         })
       })
+      .put((req, res) => {
+        // TODO
+        res.json(next)
+      })
   }
 );
 
@@ -126,4 +130,3 @@ app.get('/', (req, res) => {
 app.listen(3000, function () {
   console.log('listening on port 3000!');
 });
-
