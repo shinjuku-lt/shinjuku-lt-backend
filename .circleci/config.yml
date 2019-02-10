@@ -24,7 +24,7 @@ jobs:
              sed -ie "s/__project_id__/${PROJECT_ID}/g" ./credentials.json
              sed -ie "s/__client_secret__/${CLIENT_SECRET}/g" ./credentials.json
              sed -ie "s/__access_token__/${ACCESS_TOKEN}/g" ./token.json
-             sed -ie "s/__refresh_token__/${REFRESH_TOKEN}/g" ./token.json
+             sed -ie "s;__refresh_token__;${REFRESH_TOKEN};g" ./token.json
 
       - run:
           name: deploy asap now!!
