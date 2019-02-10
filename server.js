@@ -6,15 +6,15 @@ const moment = require("moment");
 const multer = require('multer');
 const path = require('path');
 
-const upDir = path.join(__dirname, 'upload'); 
-const uploadDir = multer({dest: upDir}); 
+const upDir = path.join(__dirname, 'upload');
+const uploadDir = multer({dest: upDir});
 
 
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
@@ -88,7 +88,7 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
   }
 );
 
-app.get('/', (req, res) => { 
+app.get('/', (req, res) => {
   res.send(
     `
     <form method="post" action="/" enctype="multipart/form-data">
@@ -112,4 +112,3 @@ app.post('/', uploadDir.single('upFile'), (req, res) => {
 app.listen(3000, function () {
   console.log('listening on port 3000!');
 });
-
