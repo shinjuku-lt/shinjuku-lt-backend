@@ -34,7 +34,7 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
   app.route('/slide')
   .get((req, res) => {
     const ignoreTypes = isLogin() ? [] : ['pdf']
-    Slide.find({presentation: {serviceType: {$nin: ignoreTypes}}}).exec((err, slides) => {
+    Slide.find({'presentation.serviceType': {$nin: ignoreTypes}}).exec((err, slides) => {
       const response = slides.reduce((response, currentSlide) => {
         const padMonth = ('00' + currentSlide.publish.month).slice(-2);
         const key = `${currentSlide.publish.year}${padMonth}`;
