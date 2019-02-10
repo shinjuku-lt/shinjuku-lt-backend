@@ -93,8 +93,6 @@ function uploadPdf2Drive(file, saveSlide) {
     // Authorize a client with credentials, then call the Google Drive API.
     authorize(JSON.parse(content), upload, file, saveSlide);
   });
-
-  return "URL";
 }
 
 function upload(auth, file, saveSlide) {

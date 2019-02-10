@@ -22,7 +22,7 @@ app.use(cors());
 
 function isLogin() {
   // TODO かねぽん
-  return true;
+  return false;
 }
 
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, err => {
@@ -33,7 +33,8 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
   let Slide = require('./app/models/slide');
   app.route('/slide')
   .get((req, res) => {
-    Slide.find({}).exec((err, slides) => {
+    const ignoreTypes = isLogin() ? [] : ['pdf']
+    Slide.find({presentation: {serviceType: {$nin: ignoreTypes}}}).exec((err, slides) => {
       const response = slides.reduce((response, currentSlide) => {
         const padMonth = ('00' + currentSlide.publish.month).slice(-2);
         const key = `${currentSlide.publish.year}${padMonth}`;
@@ -43,8 +44,8 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
         response[key] = response[key] || [];
         response[key].push(
           {
-            name: '',
-            author: '',
+            type: currentSlide.presentation.serviceType,
+            presenter: currentSlide.presentation.presenter,
             page: {
               url: currentSlide.presentation.presentationUrl,
               width: 335,
