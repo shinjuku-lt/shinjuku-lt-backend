@@ -15,7 +15,7 @@ const uploadPdf2Drive = require("./app/middlewares/drive")
 app.use(bodyParser.urlencoded({extended: true}));
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 app.use(cors());
@@ -26,7 +26,7 @@ function isLogin() {
 }
 
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, err => {
-  
+
   app.get('/health', (req, res) => {
     res.json({message: 'woooooooooooo.'});
   });
@@ -126,4 +126,3 @@ app.get('/', (req, res) => {
 app.listen(3000, function () {
   console.log('listening on port 3000!');
 });
-
