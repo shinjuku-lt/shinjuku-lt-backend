@@ -18,6 +18,15 @@ jobs:
           command: sudo npm i -g --unsafe-perm now@11.4.6
 
       - run:
+          name: set secret
+          command: |
+             sed -ie "s/__client_id__/${CLIENT_ID}/g" ./credentials.json
+             sed -ie "s/__project_id__/${PROJECT_ID}/g" ./credentials.json
+             sed -ie "s/__client_secret__/${CLIENT_SECRET}/g" ./credentials.json
+             sed -ie "s/__access_token__/${ACCESS_TOKEN}/g" ./token.json
+             sed -ie "s;__refresh_token__;${REFRESH_TOKEN};g" ./token.json
+
+      - run:
           name: deploy asap now!!
           command: |
             now shinjuku-lt/shinjuku-lt-backend --public -t ${ZEIT_TOKEN}
