@@ -29,5 +29,5 @@ jobs:
       - run:
           name: deploy asap now!!
           command: |
-            now shinjuku-lt/shinjuku-lt-backend --public -t ${ZEIT_TOKEN}
+            now --public -t ${ZEIT_TOKEN}
             now alias -t ${ZEIT_TOKEN}
