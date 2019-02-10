@@ -92,10 +92,7 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
       slide.createdAt = moment.now();
       slide.updatedAt = moment.now();
       slide.save(err => {
-        if (err) {
-          res.send(err);
-        }
-        res.json({text: "良いスライドやん"});
+        if (err) res.send(err);
       });
     });
 
@@ -140,21 +137,6 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
       })
   }
 );
-
-app.get('/', (req, res) => {
-  res.send(
-    `
-    <form method="post" action="/upload-pdf" enctype="multipart/form-data">
-      <input type="text" name="title"><br />
-      <input type="text" name="presenter"><br />
-      <input type="date" name="date"><br />
-      <input type="file" name="upFile" /><br />
-      <button >x</button>
-    </form>
-    `
-  );
-});
-
 
 app.listen(3000, function () {
   console.log('listening on port 3000!');
