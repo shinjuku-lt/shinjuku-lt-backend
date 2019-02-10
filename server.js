@@ -6,6 +6,10 @@ const moment = require("moment");
 const multer = require('multer');
 const path = require('path');
 const cors = require( 'cors' );
+const jwt = require('express-jwt');
+const jwtAuthz = require('express-jwt-authz');
+const jwksRsa = require('jwks-rsa');
+require('dotenv').config();
 
 const upDir = path.join(__dirname, 'upload');
 const uploadDir = multer({dest: upDir});
@@ -20,9 +24,29 @@ app.use((req, res, next) => {
 });
 app.use(cors());
 
-function isLogin() {
-  // TODO かねぽん
-  return false;
+function authorize(req, res, next) {
+
+  if (typeof req.headers.authorization === 'undefined') {
+    req.isLogin = false
+    return next()
+  }
+  req.isLogin = true
+  console.log('auth:',process.env.AUTH0_DOMAIN);
+  const checkJwt = jwt({
+    // Dynamically provide a signing key based on the kid in the header and the singing keys provided by the JWKS endpoint.
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
+    }),
+
+    // Validate the audience and the issuer.
+    //audience: process.env.AUTH0_AUDIENCE,
+    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+    algorithms: ['RS256']
+  });
+  return checkJwt(req, res, next)
 }
 
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, err => {
@@ -32,8 +56,8 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
   });
   let Slide = require('./app/models/slide');
   app.route('/slide')
-  .get((req, res) => {
-    const ignoreTypes = isLogin() ? [] : ['pdf']
+  .get(authorize, (req, res) => {
+    const ignoreTypes = req.isLogin ? [] : ['pdf']
     Slide.find({'presentation.serviceType': {$nin: ignoreTypes}}).exec((err, slides) => {
       const response = slides.reduce((response, currentSlide) => {
         const padMonth = ('00' + currentSlide.publish.month).slice(-2);
