@@ -114,15 +114,6 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
           res.json(next);
         })
       })
-      .put((req, res) => {
-        NextSlide.findOneAndUpdate({}, req.body, (err, next) => {
-          const padMonth = ('00' + next.nextTime.month).slice(-2);
-          const padDate = ('00' + next.nextTime.date).slice(-2);
-          next.nextTime.month = padMonth
-          next.nextTime.date = padDate
-          res.json(next);
-        })
-      })
   }
 );
 
