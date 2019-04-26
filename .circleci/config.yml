@@ -30,4 +30,4 @@ jobs:
           name: deploy asap now!!
           command: |
             now --public -t ${ZEIT_TOKEN}
-            now --public --target production -t ${ZEIT_TOKEN} && now alias -t ${ZEIT_TOKEN}
+            now --public --target production -t ${ZEIT_TOKEN}
