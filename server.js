@@ -49,7 +49,7 @@ function authorize(req, res, next) {
   return checkJwt(req, res, next)
 }
 
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, err => {
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, {useNewUrlParser: true, useCreateIndex: true}, err => {
 
   app.get('/health', (req, res) => {
     res.json({message: 'woooooooooooo.'});
