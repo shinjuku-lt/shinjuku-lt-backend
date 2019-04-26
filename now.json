@@ -7,7 +7,6 @@
     "DB_NAME": "@db_name",
     "AUTH0_DOMAIN": "@auth0_domain"
   },
-  "version": 2,
   "name": "shinjuku-lt-backend",
   "alias": "shinjuku-lt-backend.now.sh"
 }
